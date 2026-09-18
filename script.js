@@ -212,11 +212,35 @@
     initRevealAnimations();
   };
 
-  function init() {
+function init() {
     initLangSwitcher();
     initRevealAnimations();
     initSmoothScroll();
     initCustomCursor();
+    initCreators3D();
+  }
+
+  function initCreators3D() {
+    const track = document.querySelector('.creators__track');
+    if (!track) return;
+    const items = track.querySelectorAll('.creators__item');
+    function update() {
+      const center = window.innerWidth / 2;
+      items.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(itemCenter - center);
+        const maxDist = window.innerWidth * 0.55;
+        const t = Math.min(dist / maxDist, 1);
+const scale = 1.30 - t * 0.45;   // było 1.18 - t * 0.38  → większa różnica skali
+const z = 120 - t * 160;         // było 80 - t * 140     → mocniejszy efekt bliskości
+const op = 1 - t * 0.7;          // było 1 - t * 0.55     → boczne bardziej przygaszone
+        item.style.transform = `translateZ(${z}px) scale(${scale})`;
+        item.style.opacity = op;
+      });
+      requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
   }
 
   if (document.readyState === 'loading') {
@@ -233,7 +257,7 @@
   s.src = 'https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js';
   s.onload = function () {
     var lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.6,
       easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
       smoothWheel: true,
       anchors: true
