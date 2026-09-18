@@ -232,9 +232,9 @@ function init() {
         const dist = Math.abs(itemCenter - center);
         const maxDist = window.innerWidth * 0.55;
         const t = Math.min(dist / maxDist, 1);
-const scale = 1.30 - t * 0.45;   // było 1.18 - t * 0.38  → większa różnica skali
-const z = 120 - t * 160;         // było 80 - t * 140     → mocniejszy efekt bliskości
-const op = 1 - t * 0.7;          // było 1 - t * 0.55     → boczne bardziej przygaszone
+        const scale = 1.30 - t * 0.45;
+        const z = 120 - t * 160;
+        const op = 1 - t * 0.7;
         item.style.transform = `translateZ(${z}px) scale(${scale})`;
         item.style.opacity = op;
       });
